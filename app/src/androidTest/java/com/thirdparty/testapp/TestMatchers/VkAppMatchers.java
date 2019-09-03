@@ -1,9 +1,9 @@
-package com.thirdparty.testapp;
+package com.thirdparty.testapp.TestMatchers;
 
 import androidx.test.uiautomator.UiObject2;
 
-import static com.thirdparty.testapp.TestHelpers.VK_PACKAGE_NAME;
-import static com.thirdparty.testapp.TestHelpers.findUiObjectById;
+import static com.thirdparty.testapp.TestUtils.TestHelpers.VK_PACKAGE_NAME;
+import static com.thirdparty.testapp.TestUtils.TestHelpers.findUiObjectById;
 
 public class VkAppMatchers {
 

@@ -1,4 +1,4 @@
-package com.thirdparty.testapp;
+package com.thirdparty.testapp.TestUtils;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,10 +12,16 @@ import androidx.test.uiautomator.Until;
 
 import junit.framework.AssertionFailedError;
 
+import org.junit.Assert;
+
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static androidx.test.core.app.ApplicationProvider.getApplicationContext;
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
+import static com.thirdparty.testapp.TestUtils.MemoryLogsUtil.getMemoryLogs;
 import static java.lang.String.format;
 import static junit.framework.Assert.assertNotNull;
 import static org.junit.Assert.fail;
@@ -43,6 +49,7 @@ public class TestHelpers {
         }
     }
 
+    //TO DO: can be used to check application startup time by logcat | grep ActivityManager
     public static void executeUiAutomationShellCommand(String shellCommand) {
         InstrumentationRegistry.getInstrumentation().getUiAutomation()
                 .executeShellCommand(shellCommand);
@@ -111,6 +118,22 @@ public class TestHelpers {
         mDevice.swipe(CENTER_OF_SCREEN, LEFT_POINT_OF_SCREEN,
                 CENTER_OF_SCREEN, RIGHT_POINT_OF_SCREEN, 5);
         sleepStatement(DEFAULT_TIMEOUT);
+    }
+
+    public static Long getUsedMemorySize(String packageName) {
+        String dumpsysCommand = String.format("dumpsys -t 30 meminfo --package %s", packageName);
+        String output = executeShellCommand(dumpsysCommand);
+        ArrayList<String> usages = new ArrayList<>();
+        Matcher matcher = Pattern.compile("TOTAL\\s+([\\d]+)").matcher(output);
+        while (matcher.find()) {
+            usages.add(matcher.group(1));
+        }
+        Assert.assertTrue("Could not get meminfo total for " + packageName, !usages.isEmpty());
+        long totalMemory = usages.stream().mapToLong(Long::valueOf).sum();
+
+        getMemoryLogs(output, totalMemory);
+
+        return totalMemory;
     }
 
 }
