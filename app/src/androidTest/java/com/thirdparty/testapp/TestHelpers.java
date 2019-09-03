@@ -3,6 +3,7 @@ package com.thirdparty.testapp;
 import android.content.Context;
 import android.content.Intent;
 
+import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.uiautomator.By;
 import androidx.test.uiautomator.Direction;
 import androidx.test.uiautomator.UiDevice;
@@ -11,8 +12,11 @@ import androidx.test.uiautomator.Until;
 
 import junit.framework.AssertionFailedError;
 
+import java.io.IOException;
+
 import static androidx.test.core.app.ApplicationProvider.getApplicationContext;
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
+import static java.lang.String.format;
 import static junit.framework.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
@@ -25,11 +29,9 @@ public class TestHelpers {
     public static final int DEFAULT_TIMEOUT = 3000;
     public static final int SCROLL_TIMEOUT = 1000;
 
-    public static final int APP_LAUNCH_TIMEOUT = 10000;
+    public static final int APP_LAUNCH_TIMEOUT = 1500;
 
-    public static final int CENTER_OF_SCREEN = mDevice.getDisplayWidth() / 2;
-    private static final int TOP_POINT_OF_SCREEN = mDevice.getDisplayHeight() / 4;
-    public static final int BOTTOM_POINT_OF_SCREEN = mDevice.getDisplayHeight();
+    private static final int CENTER_OF_SCREEN = mDevice.getDisplayWidth() / 2;
     private static final int RIGHT_POINT_OF_SCREEN = mDevice.getDisplayWidth() * 9 / 10;
     private static final int LEFT_POINT_OF_SCREEN = mDevice.getDisplayWidth() / 10;
 
@@ -39,6 +41,22 @@ public class TestHelpers {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void executeUiAutomationShellCommand(String shellCommand) {
+        InstrumentationRegistry.getInstrumentation().getUiAutomation()
+                .executeShellCommand(shellCommand);
+        sleepStatement(DEFAULT_TIMEOUT);
+    }
+
+    public static String executeShellCommand(String shellCommand) {
+        String result = null;
+        try {
+            result = TestHelpers.mDevice.executeShellCommand(shellCommand);
+        } catch (IOException e) {
+            fail(format("Failed execute shell command: %s", shellCommand));
+        }
+        return result;
     }
 
     public static void waitForApp(String pkg) {
