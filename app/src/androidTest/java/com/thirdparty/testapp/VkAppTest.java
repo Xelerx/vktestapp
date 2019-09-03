@@ -99,7 +99,7 @@ public class VkAppTest {
 
     @Test
     @Acceptance
-    public void checkLauncherMemory() {
+    public void vkMemoryCheckTest() {
 
         //Launch Vk application
         launchApp(VK_PACKAGE_NAME);

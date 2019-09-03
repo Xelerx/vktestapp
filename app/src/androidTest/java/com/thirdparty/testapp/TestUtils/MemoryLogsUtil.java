@@ -19,14 +19,14 @@ public class MemoryLogsUtil {
     public static void getMemoryLogs(String fullOutput, long memory) {
         String logFileName = Long.toString(memory);
 
-        // Create folder if needed
+        //Create folder if needed
         File folder = new File(getExternalStorageDirectory(), FOLDER_NAME_FOR_MEMORY_LOGS);
         if (!folder.exists()) {
             Log.i(LOG_TAG, "Create folder: " + FOLDER_NAME_FOR_MEMORY_LOGS);
             folder.mkdirs();
         }
 
-        // White logs to the file
+        //Write logs to the file
         try {
             File logFile = new File(getExternalStorageDirectory() + "/" + FOLDER_NAME_FOR_MEMORY_LOGS
                     + "/memory_is_" + logFileName + ".txt");
@@ -38,7 +38,7 @@ public class MemoryLogsUtil {
             myOutWriter.close();
             fOut.close();
         } catch (Exception e) {
-            Log.i(LOG_TAG, "Failed white logs to the file");
+            Log.i(LOG_TAG, "Failed write logs to the file");
         }
     }
 }
