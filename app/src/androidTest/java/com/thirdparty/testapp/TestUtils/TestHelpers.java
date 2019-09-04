@@ -3,7 +3,6 @@ package com.thirdparty.testapp.TestUtils;
 import android.content.Context;
 import android.content.Intent;
 
-import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.uiautomator.By;
 import androidx.test.uiautomator.Direction;
 import androidx.test.uiautomator.UiDevice;
@@ -37,23 +36,12 @@ public class TestHelpers {
 
     public static final int APP_LAUNCH_TIMEOUT = 1500;
 
-    private static final int CENTER_OF_SCREEN = mDevice.getDisplayWidth() / 2;
-    private static final int RIGHT_POINT_OF_SCREEN = mDevice.getDisplayWidth() * 9 / 10;
-    private static final int LEFT_POINT_OF_SCREEN = mDevice.getDisplayWidth() / 10;
-
     public static void sleepStatement(int millis) {
         try {
             Thread.sleep(millis);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-    }
-
-    //TO DO: can be used to check application startup time by logcat | grep ActivityManager
-    public static void executeUiAutomationShellCommand(String shellCommand) {
-        InstrumentationRegistry.getInstrumentation().getUiAutomation()
-                .executeShellCommand(shellCommand);
-        sleepStatement(DEFAULT_TIMEOUT);
     }
 
     public static String executeShellCommand(String shellCommand) {
@@ -106,20 +94,6 @@ public class TestHelpers {
         return mDevice.pressHome();
     }
 
-    public static boolean pressBack() { return mDevice.pressBack(); }
-
-    public static void customUpSwipe() {
-        mDevice.swipe(CENTER_OF_SCREEN, RIGHT_POINT_OF_SCREEN,
-                CENTER_OF_SCREEN, LEFT_POINT_OF_SCREEN, 5);
-        sleepStatement(DEFAULT_TIMEOUT);
-    }
-
-    public static void customDownSwipe() {
-        mDevice.swipe(CENTER_OF_SCREEN, LEFT_POINT_OF_SCREEN,
-                CENTER_OF_SCREEN, RIGHT_POINT_OF_SCREEN, 5);
-        sleepStatement(DEFAULT_TIMEOUT);
-    }
-
     public static Long getUsedMemorySize(String packageName) {
         String dumpsysCommand = String.format("dumpsys -t 30 meminfo --package %s", packageName);
         String output = executeShellCommand(dumpsysCommand);
@@ -135,5 +109,4 @@ public class TestHelpers {
 
         return totalMemory;
     }
-
 }

@@ -14,20 +14,15 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static android.content.ContentValues.TAG;
-import static com.thirdparty.testapp.TestMatchers.VkAppMatchers.vkDiscoverTab;
-import static com.thirdparty.testapp.TestMatchers.VkAppMatchers.vkFeedbackTab;
 import static com.thirdparty.testapp.TestMatchers.VkAppMatchers.vkFriendsRecBtn;
 import static com.thirdparty.testapp.TestMatchers.VkAppMatchers.vkFriendsRecList;
 import static com.thirdparty.testapp.TestMatchers.VkAppMatchers.vkIcon;
-import static com.thirdparty.testapp.TestMatchers.VkAppMatchers.vkMenuTab;
-import static com.thirdparty.testapp.TestMatchers.VkAppMatchers.vkMessagesTab;
 import static com.thirdparty.testapp.TestMatchers.VkAppMatchers.vkNegative;
 import static com.thirdparty.testapp.TestMatchers.VkAppMatchers.vkNewsTab;
 import static com.thirdparty.testapp.TestMatchers.VkAppMatchers.vkPhoto;
 import static com.thirdparty.testapp.TestMatchers.VkAppMatchers.vkPositive;
 import static com.thirdparty.testapp.TestMatchers.VkAppMatchers.vkSubtitle;
 import static com.thirdparty.testapp.TestMatchers.VkAppMatchers.vkSubtitle2;
-import static com.thirdparty.testapp.TestMatchers.VkAppMatchers.vkTitle;
 import static com.thirdparty.testapp.TestUtils.MemoryLogsUtil.MAX_PEAK_PSS_ALLOWED;
 import static com.thirdparty.testapp.TestUtils.TestHelpers.DEFAULT_TIMEOUT;
 import static com.thirdparty.testapp.TestUtils.TestHelpers.VK_PACKAGE_NAME;
@@ -68,33 +63,31 @@ public class VkAppTest {
         shouldSeeUiObject(vkFriendsRecBtn());
         vkFriendsRecBtn()
                 .click();
-        //Find scrollable list and scroll 3 times down
+        //Find scrollable list and scroll down
         shouldSeeUiObject(vkFriendsRecList());
-        scrollUiObjectDown(vkFriendsRecList());
-        scrollUiObjectDown(vkFriendsRecList());
         scrollUiObjectDown(vkFriendsRecList());
 
         //Check all friends matchers
-        shouldSeeUiObject(vkPhoto());
-        shouldSeeUiObject(vkTitle());
-        shouldSeeUiObject(vkIcon());
-        shouldSeeUiObject(vkSubtitle());
-        shouldSeeUiObject(vkSubtitle2());
-        shouldSeeUiObject(vkPositive());
-        shouldSeeUiObject(vkNegative());
+        shouldSeeUiObject(vkPhoto(),
+                vkNewsTab(),
+                vkIcon(),
+                vkSubtitle(),
+                vkSubtitle2(),
+                vkPositive(),
+                vkNegative());
 
-        //Scroll 3 times up
+        //Scroll up
         shouldSeeUiObject(vkFriendsRecList());
-        scrollUiObjectUp(vkFriendsRecList());
-        scrollUiObjectUp(vkFriendsRecList());
         scrollUiObjectUp(vkFriendsRecList());
 
         //Check bottom menu matchers
-        shouldSeeUiObject(vkNewsTab());
-        shouldSeeUiObject(vkDiscoverTab());
-        shouldSeeUiObject(vkMessagesTab());
-        shouldSeeUiObject(vkFeedbackTab());
-        shouldSeeUiObject(vkMenuTab());
+        shouldSeeUiObject(vkPhoto(),
+                vkNewsTab(),
+                vkIcon(),
+                vkSubtitle(),
+                vkSubtitle2(),
+                vkPositive(),
+                vkNegative());
     }
 
     @Test
